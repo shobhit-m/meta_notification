@@ -1,10 +1,10 @@
 class CreateMetaNotificationNotificationTypes < ActiveRecord::Migration
   def change
     create_table :mn_notification_types do |t|
-      t.string :name
-      t.string :display_name
-      t.integer :created_by_id
-      t.integer :updated_by_id
+      t.string :name, null: false, unique: true
+      t.string :display_name, null: false, unique: true
+      t.references :created_by, null: false
+      t.references :updated_by, null: false
 
       t.timestamps null: false
     end

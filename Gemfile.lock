@@ -149,6 +149,3 @@ DEPENDENCIES
   meta_notification!
   mysql2 (= 0.3.18)
   rspec-rails (~> 3.4)
-
-BUNDLED WITH
-   1.10.5
