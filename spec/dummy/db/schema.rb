@@ -11,13 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160615074820) do
+ActiveRecord::Schema.define(version: 20160618094218) do
+
+  create_table "mn_notification_templates", force: :cascade do |t|
+    t.integer  "notification_type_id", limit: 4,     null: false
+    t.string   "in_app",               limit: 255
+    t.string   "mobile",               limit: 255
+    t.string   "push",                 limit: 255
+    t.text     "email",                limit: 65535
+    t.string   "sms",                  limit: 255
+    t.string   "email_subject",        limit: 255
+    t.integer  "resource_id",          limit: 4
+    t.string   "resource_type",        limit: 255
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+  end
+
+  add_index "mn_notification_templates", ["notification_type_id", "resource_type", "resource_id"], name: "unique_type_resource_index", unique: true, using: :btree
+  add_index "mn_notification_templates", ["resource_type", "resource_id"], name: "resource_index", using: :btree
 
   create_table "mn_notification_types", force: :cascade do |t|
-    t.string   "name",          limit: 255
+    t.string   "name",          limit: 255, null: false
     t.string   "display_name",  limit: 255
-    t.integer  "created_by_id", limit: 4
-    t.integer  "updated_by_id", limit: 4
+    t.integer  "created_by_id", limit: 4,   null: false
+    t.integer  "updated_by_id", limit: 4,   null: false
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end

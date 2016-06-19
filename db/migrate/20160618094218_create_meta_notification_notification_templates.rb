@@ -13,7 +13,7 @@ class CreateMetaNotificationNotificationTemplates < ActiveRecord::Migration
 
       t.timestamps null: false
     end
-    add_index :mn_notification_templates, [notification_type_id, resource_type, resource_id], unique: true, name: "unique_type_resource_index"
-    add_index :mn_notification_templates, [resource_type, resource_id], index: true, name: "resource_index"
+    add_index :mn_notification_templates, [:notification_type_id, :resource_type, :resource_id], unique: true, name: "unique_type_resource_index"
+    add_index :mn_notification_templates, [:resource_type, :resource_id], name: "resource_index"
   end
 end
