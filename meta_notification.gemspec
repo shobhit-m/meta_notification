@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.version     = MetaNotification::VERSION
   s.authors     = ["Shobhit Dixit"]
   s.email       = ["shobhit-m@github.com"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of MetaNotification."
-  s.description = "TODO: Description of MetaNotification."
+  s.homepage    = "https://github.com/shobhit-m/meta_notification"
+  s.summary     = "Summary of MetaNotification."
+  s.description = "MetaNotification: A module to send notifications."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "spec/factories/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
