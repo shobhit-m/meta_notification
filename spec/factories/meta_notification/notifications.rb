@@ -5,6 +5,6 @@ FactoryGirl.define do
     mobile "MyText"
     resource_type "MyString"
     resource_id 1
-    created_by 1
+    created_by_id 1
   end
 end

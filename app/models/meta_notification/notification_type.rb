@@ -6,14 +6,17 @@ module MetaNotification
 
     after_create :after_create_notification_type
 
-    has_many :notification_template, dependent: destroy
+    has_many :notification_templates, dependent: destroy
+    has_one :notification_setting, dependent: destroy
 
     private
 
     def after_create_notification_type
-      # create blank template for the notification type with source_type/source_id = nil.
-
+      # create blank template for the notification type with resource_type/resource_id = nil.
+      template = NotificationTemplate.new({notification_type_id: id})
+      template.save(validate: false)
       # create notification_settings for the notification type.
+      NotificationSetting.create({notification_type_id: id})
     end
   end
 end
