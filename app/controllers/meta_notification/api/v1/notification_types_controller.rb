@@ -12,12 +12,14 @@ module MetaNotification
 
         def create
           @type = NotificationType.create(type_params)
-          render :json => @type
+          render :json => { errors: @type.errors.messages }, status: 422 and return if @type.errors.present?
+          # render :json => @type
         end
 
         def update
           @type.update(type_params)
-          render :json => @type
+          render :json => { errors: @type.errors.messages }, status: 422 and return if @type.errors.present?
+          # render :json => @type
         end
 
         def index
