@@ -153,4 +153,4 @@ DEPENDENCIES
   rspec-rails (~> 3.4)
 
 BUNDLED WITH
-   1.10.5
+   1.11.2
