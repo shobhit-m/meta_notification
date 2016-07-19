@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module MetaNotification
-  RSpec.describe Api::V1::NotificationTemplateController, type: :controller do
+  RSpec.describe Api::V1::NotificationTemplatesController, type: :controller do
 
     describe "GET #index" do
       it "returns http success" do

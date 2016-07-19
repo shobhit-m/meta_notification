@@ -8,7 +8,7 @@ module MetaNotification
     end
 
     def update
-      @user_notification.update({user_notification_params})
+      @user_notification.update(user_notification_params)
     end
 
     def user_notifications

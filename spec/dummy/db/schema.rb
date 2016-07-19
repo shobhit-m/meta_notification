@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160620071725) do
+ActiveRecord::Schema.define(version: 20160620052742) do
 
   create_table "mn_notification_settings", force: :cascade do |t|
     t.integer  "notification_type_id", limit: 4,                 null: false
@@ -72,14 +72,16 @@ ActiveRecord::Schema.define(version: 20160620071725) do
   add_index "mn_user_notification_settings", ["user_id", "notification_type_id"], name: "unique_user_notification_type_index", unique: true, using: :btree
 
   create_table "mn_user_notifications", force: :cascade do |t|
-    t.integer  "user_id",         limit: 4, null: false
-    t.integer  "notification_id", limit: 4, null: false
-    t.boolean  "is_read",                   null: false
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.integer  "user_id",              limit: 4, null: false
+    t.integer  "notification_id",      limit: 4, null: false
+    t.integer  "notification_type_id", limit: 4, null: false
+    t.boolean  "is_read",                        null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   add_index "mn_user_notifications", ["notification_id"], name: "index_mn_user_notifications_on_notification_id", using: :btree
+  add_index "mn_user_notifications", ["notification_type_id"], name: "index_mn_user_notifications_on_notification_type_id", using: :btree
   add_index "mn_user_notifications", ["user_id"], name: "index_mn_user_notifications_on_user_id", using: :btree
 
 end
