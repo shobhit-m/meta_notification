@@ -8,26 +8,35 @@ module MetaNotification
         include MetaNotificationAuthority
 
         before_action :set_type, only: [:update, :show]
-        before_action :authorize
+        # before_action :authorize
+        before_action :init_authorizer
 
         def create
-          @type = NotificationType.create(type_params)
-          render :json => @type
+          if NotificationType.creatable?(currrent_user)
+            @type = NotificationType.create(type_params)
+            render :json => @type
+          end
         end
 
         def update
-          @type.update(type_params)
-          render :json => @type
+          if @notification_type_authorizer.updtable_by?(current_user, @type)
+            @type.update(type_params)
+            render :json => @type
+          end
         end
 
         def index
-          @types = NotificationType.all
+          if NotificationTypeAuthorizer.readable_by?(current_user)
+            @types = NotificationType.all
+          end
           render :json => controller_name.classify
           # render :json => @types
         end
 
         def show
-          render :json => @type
+          if @notification_type_authorizer.readable_by?(current_user, @type)
+            render :json => @type
+          end
         end
 
         def destroy
@@ -42,7 +51,11 @@ module MetaNotification
           params.permit(:notification_type)
         end
 
-        private :set_type, :type_params
+        def init_authorizer
+          @notification_type_authorizer = NotificationTypeAuthorizer.new
+        end
+
+        private :set_type, :type_params, :init_authorizer
 
       end
 
