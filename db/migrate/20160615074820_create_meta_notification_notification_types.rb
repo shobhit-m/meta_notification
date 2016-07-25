@@ -3,7 +3,7 @@ class CreateMetaNotificationNotificationTypes < ActiveRecord::Migration
     create_table :mn_notification_types do |t|
       t.string :name, null: false, unique: true, limit: 255
       t.string :display_name, limit: 255
-      t.string :description
+      t.text :description
       t.references :created_by, null: false
       t.references :updated_by, null: false
 
