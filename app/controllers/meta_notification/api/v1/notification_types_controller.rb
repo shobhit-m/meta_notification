@@ -11,39 +11,39 @@ module MetaNotification
         # before_action :authorize
         before_action :init_authorizer
 
-        def create
-          if NotificationType.creatable?(currrent_user)
-            @type = NotificationType.create(type_params)
-            render :json => @type
-          end
-        end
-
-        def update
-          if @notification_type_authorizer.updtable_by?(current_user, @type)
-            @type.update(type_params)
-            render :json => @type
-          end
-        end
+        # def create
+        #   if MnAuthorizers::NotificationTypeAuthorizer.creatable?(currrent_user)
+        #     @type = MetaNotification::NotificationType.create(type_params)
+        #     render :json => @type
+        #   end
+        # end
+        #
+        # def update
+        #   if @notification_type_authorizer.updtable_by?(current_user, @type)
+        #     @type.update(type_params)
+        #     render :json => @type
+        #   end
+        # end
 
         def index
-          if NotificationTypeAuthorizer.readable_by?(current_user)
-            @types = NotificationType.all
+          if MnAuthorizers::NotificationTypeAuthorizer.readable_by?(current_user)
+            @types = MetaNotification::NotificationType.all
           end
-          render :json => controller_name.classify
-          # render :json => @types
+          # render :json => controller_name.classify
+          render :json => @types
         end
 
-        def show
-          if @notification_type_authorizer.readable_by?(current_user, @type)
-            render :json => @type
-          end
-        end
+        # def show
+        #   if @notification_type_authorizer.readable_by?(current_user, @type)
+        #     render :json => @type
+        #   end
+        # end
 
         def destroy
         end
 
         def set_type
-          @type = NotificationType.find params[:id]
+          @type = MetaNotification::NotificationType.find params[:id]
         end
 
         def type_params
@@ -52,7 +52,7 @@ module MetaNotification
         end
 
         def init_authorizer
-          @notification_type_authorizer = NotificationTypeAuthorizer.new
+          @notification_type_authorizer = MnAuthorizers::NotificationTypeAuthorizer.new
         end
 
         private :set_type, :type_params, :init_authorizer
