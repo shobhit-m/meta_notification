@@ -12,3 +12,6 @@ gemspec
 
 # To use a debugger
 gem 'byebug', group: [:development, :test]
+
+gem 'paperclip', '~> 4.3.1'
+gem 'rabl', '~> 0.11.6'

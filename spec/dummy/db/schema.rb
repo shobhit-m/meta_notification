@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160620052742) do
+ActiveRecord::Schema.define(version: 20160727124414) do
 
   create_table "mn_notification_settings", force: :cascade do |t|
     t.integer  "notification_type_id", limit: 4,                 null: false
@@ -55,6 +55,10 @@ ActiveRecord::Schema.define(version: 20160620052742) do
     t.integer  "created_by_id",            limit: 4,     null: false
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.string   "attachment_file_name",     limit: 255
+    t.string   "attachment_content_type",  limit: 255
+    t.integer  "attachment_file_size",     limit: 4
+    t.datetime "attachment_updated_at"
   end
 
   add_index "mn_notifications", ["created_by_id"], name: "index_mn_notifications_on_created_by_id", using: :btree
