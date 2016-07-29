@@ -1,9 +1,18 @@
 object false
 
 child(@notifications => :notifications)  do
-  attributes :id,:user_id, :is_read, :in_app, :mobile, :label, :icon
-  node :template_name do |u|
-    u.name
+  attributes :id,:user_id, :is_read, :in_app, :mobile, :label, :icon, :created_at
+  node :template_name do |notification|
+    notification.name
+  end
+  node :first_name do |notification|
+    @created_by_users.map{|user| user.first_name if notification.created_by_id == user.id}.first
+  end
+  node :last_name do |notification|
+    @created_by_users.map{|user| user.last_name if notification.created_by_id == user.id}.first
+  end
+  node :attachment do |notification|
+   notification.attachment.url if notification.attachment.present?
   end
 end
 

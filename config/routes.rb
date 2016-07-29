@@ -19,6 +19,12 @@ MetaNotification::Engine.routes.draw do
                 end
             end
 
+            resources :notifications, except: [:new, :edit, :index, :show, :create, :update, :destroy] do
+              collection do
+                get 'resource_notification'
+              end
+            end
+
             # resources :user_notifications, only: [:index, :show, :update]
             # get 'users/:user_id/notifications' => 'user_notitfications#show'
             # put 'user_notifications/:id' => 'user_notitfications#update'
