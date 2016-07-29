@@ -32,6 +32,7 @@ module MetaNotification
                     @unread_count = @notifications.select { |n| n.is_read == 0 }.length
                     @notifications = @notifications.where("mn_user_notifications.is_read": ((params[:is_fetch_unread].try(:to_bool).present?) ? false : [true, false]) )
                     @notifications = @notifications.where("mn_notifications.resource_type": params[:resource_type], "mn_notifications.resource_id": params[:resource_id]) if params[:resource_id].present? && params[:resource_type].present?
+                    @notifications = @notifications.order("mn_notifications.created_at DESC")
                     @notifications = @notifications.page(params[:current_page]) if params[:current_page].present?
 
                     @created_by_users = User.where(id: @notifications.map(&:created_by_id).compact.uniq)
