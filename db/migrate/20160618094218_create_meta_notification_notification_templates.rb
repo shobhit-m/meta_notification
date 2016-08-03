@@ -2,12 +2,12 @@ class CreateMetaNotificationNotificationTemplates < ActiveRecord::Migration
   def change
     create_table :mn_notification_templates do |t|
       t.references :notification_type, null: false
-      t.string :in_app
-      t.string :mobile
-      t.string :push
+      t.text :in_app
+      t.text :mobile
+      t.text :push
       t.text :email
-      t.string :sms
-      t.string :email_subject
+      t.text :sms
+      t.text :email_subject
       t.integer :resource_id
       t.string :resource_type
 
