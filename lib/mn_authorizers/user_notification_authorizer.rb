@@ -1,21 +1,21 @@
 module MnAuthorizers
   class UserNotificationAuthorizer
     def self.creatable_by?(current_user)
-      "Class creatable"
+      true
     end
     def creatable_by?(current_user, resource=nil)
-      "instance creatable"
+      true
     end
     def self.updatable_by?(current_user)
       true
     end
-    def updatable_by?(current_user, resource=nil)
+    def updatable_by?(current_user, resource=nil, user_id=nil)
       true
     end
-    def self.readable_by?(current_user)
+    def self.readable_by?(current_user, user_id=nil)
       true
     end
-    def readable_by?(current_user, resource=nil)
+    def readable_by?(current_user, resource=nil, user_id=nil)
       true
     end
     def self.deletable_by?(current_user)

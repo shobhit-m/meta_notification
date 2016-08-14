@@ -22,7 +22,7 @@ module MetaNotification
                 end
 
                 def notifications
-                  if MnAuthorizers::UserNotificationAuthorizer.readable_by?(current_user)
+                  if MnAuthorizers::UserNotificationAuthorizer.readable_by?(current_user, params[:user_id])
                     mobile_or_in_app = (params[:platform] == 'mobile') ? 'mobile'.to_sym : 'in_app'.to_sym
                     @notifications =  MetaNotification::Notification.select(:id, "mn_notifications.*", "mn_user_notifications.id","mn_user_notifications.user_id", mobile_or_in_app, "mn_user_notifications.is_read", "mn_notification_types.name", "mn_notification_types.icon", "mn_notification_types.label", "mn_notifications.created_by_id", "mn_notifications.created_at")
                     .joins('JOIN mn_user_notifications on mn_user_notifications.notification_id = mn_notifications.id')
@@ -36,18 +36,6 @@ module MetaNotification
                     @notifications = @notifications.page(params[:current_page]) if params[:current_page].present?
 
                     @created_by_users = User.where(id: @notifications.map(&:created_by_id).compact.uniq)
-                    # mobile_or_in_app = (params[:platform] == 'mobile') ? 'mobile'.to_sym : 'in_app'.to_sym
-                    # @notifications =  MetaNotification::UserNotification.select(:id,:user_id, mobile_or_in_app, :is_read, "mn_notification_types.name", "mn_notification_types.icon", "mn_notification_types.label", "mn_notifications.created_by_id", "mn_notifications.created_at", "mn_notifications.attachment")
-                    # .joins('JOIN mn_notifications on mn_notifications.id = mn_user_notifications.notification_id')
-                    # .joins('JOIN mn_notification_types on mn_notification_types.id = mn_user_notifications.notification_type_id')
-                    # .where(user_id: params[:user_id], notification_type_id: @notification_type_in_ids)
-                    # .where.not(notification_type_id: @notification_type_not_in_ids)
-                    # @unread_count = @notifications.select { |n| !n.is_read }.length
-                    #
-                    # @notifications = @notifications.where(is_read: ((params[:is_fetch_unread].try(:to_bool).present?) ? false : [true, false]) )
-                    # @notifications = @notifications.page(params[:current_page]) if params[:current_page].present?
-                    #
-                    # @created_by_users = User.where(id: @notifications.map(&:created_by_id).compact.uniq)
                     return
                   end
                   render :json => "You are not authorize to complete this action.",  status: 422
@@ -64,7 +52,7 @@ module MetaNotification
                 end
 
                 def set_user_notification
-                    @user_notification = UserNotification.find params[:id]
+                  @user_notification = UserNotification.find params[:id]
                 end
 
                 def set_notification_type_ids_for_filter

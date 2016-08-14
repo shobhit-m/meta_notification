@@ -1,12 +1,18 @@
 require_dependency "meta_notification/application_controller"
+require "meta_notification_authority"
 
 module MetaNotification
   class Api::V1::NotificationTemplatesController < ApplicationController
+    before_action :init_authorizer
+
     before_action :set_template, only: [:update, :show]
 
     def index
-      @templates = MetaNotification::NotificationTemplate.where(notification_type_id: params[:notification_type_id])
-      render :json => @templates.first
+      if MnAuthorizers::NotificationTemplateAuthorizer.readable_by?(current_user)
+        @templates = MetaNotification::NotificationTemplate.where(notification_type_id: params[:notification_type_id])
+        render :json => @templates.first, status: 200 and return
+      end
+      render :json => "You are not authorize to complete this action.",  status: 422
     end
 
     # def show
@@ -19,9 +25,12 @@ module MetaNotification
     # end
     #
     def update
-      @template.update(template_params[:notification_template])
-      render :json => { errors: @template.errors.messages }, status: 422 and return if @template.errors.present?
-      render :json => @template
+      if MnAuthorizers::NotificationTemplateAuthorizer.updatable_by?(current_user) && @notification_template_authorizer.updatable_by?(current_user, @template)
+        @template.update(template_params[:notification_template])
+        render :json => { errors: @template.errors.messages }, status: 422 and return if @template.errors.present?
+        render :json => @template, status: 200 and return
+      end
+      render :json => "You are not authorize to complete this action.",  status: 422
     end
     #
     # def destroy
@@ -43,6 +52,10 @@ module MetaNotification
       params.permit(notification_template: [:in_app, :mobile, :push, :email, :email_subject])
     end
 
-    private :set_template, :template_params
+    def init_authorizer
+      @notification_template_authorizer = MnAuthorizers::NotificationTemplateAuthorizer.new
+    end
+
+    private :init_authorizer, :set_template, :template_params
   end
 end
