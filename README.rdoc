@@ -1,3 +1,11 @@
+= Usage  
+For Installation,write following line in gem file:  
+  gem 'meta_notification', :git => 'https://github.com/shobhit-m/meta_notification'  
+
+To override authorizers, add following lines in application.rb,
+  config.autoload_paths += Dir["#{config.root}/lib/"]
+  config.autoload_paths += Dir["#{config.root}/lib/mn_authorizers/**/"]
+
 = MetaNotification
 
 This project rocks and uses MIT-LICENSE.
