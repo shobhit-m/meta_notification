@@ -28,7 +28,7 @@ module MetaNotification
         def index
           if MnAuthorizers::NotificationTypeAuthorizer.readable_by?(current_user)
             @types = MetaNotification::NotificationType.all
-            render :json => @types
+            render :json => @types, status: 200 and return
           end
           render :json => "You are not authorize to complete this action.",  status: 422
         end
