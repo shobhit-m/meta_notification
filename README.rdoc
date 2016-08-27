@@ -1,6 +1,6 @@
 = Usage  
 For Installation,write following line in gem file:  
-  gem 'meta_notification', :git => 'https://github.com/shobhit-m/meta_notification'  
+  gem 'meta_notification', '~> 0.0.5'  
 
 To override authorizers, add following lines in application.rb,
   config.autoload_paths += Dir["#{config.root}/lib/"]
