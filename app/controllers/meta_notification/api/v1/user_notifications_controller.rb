@@ -24,7 +24,7 @@ module MetaNotification
                 def notifications
                   if MnAuthorizers::UserNotificationAuthorizer.readable_by?(current_user, params[:user_id])
                     mobile_or_in_app = (params[:platform] == 'mobile') ? 'mobile'.to_sym : 'in_app'.to_sym
-                    @notifications =  MetaNotification::Notification.select(:id, "mn_notifications.*","mn_user_notifications.user_id", mobile_or_in_app, "mn_user_notifications.is_read", "mn_notification_types.name", "mn_notification_types.icon", "mn_notification_types.label", "mn_notifications.created_by_id", "mn_notifications.created_at")
+                    @notifications =  MetaNotification::Notification.select(:id, "mn_notifications.*", "mn_user_notifications.id as mn_user_notification_id","mn_user_notifications.user_id", mobile_or_in_app, "mn_user_notifications.is_read", "mn_notification_types.name", "mn_notification_types.icon", "mn_notification_types.label", "mn_notifications.created_by_id", "mn_notifications.created_at")
                     .joins('JOIN mn_user_notifications on mn_user_notifications.notification_id = mn_notifications.id')
                     .joins('JOIN mn_notification_types on mn_notification_types.id = mn_user_notifications.notification_type_id')
                     .where("mn_user_notifications.user_id": params[:user_id], "mn_user_notifications.notification_type_id": @notification_type_in_ids)
@@ -52,7 +52,7 @@ module MetaNotification
                 end
 
                 def set_user_notification
-                  @user_notification = UserNotification.where(user_id: current_user.id, notification_id: params[:id])
+                  @user_notification = UserNotification.find params[:id]
                 end
 
                 def set_notification_type_ids_for_filter
