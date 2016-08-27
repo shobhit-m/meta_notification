@@ -52,7 +52,7 @@ module MetaNotification
                 end
 
                 def set_user_notification
-                  @user_notification = UserNotification.find params[:id]
+                  @user_notification = UserNotification.where(user_id: current_user.id, notification_id: params[:id])
                 end
 
                 def set_notification_type_ids_for_filter
