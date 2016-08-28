@@ -27,11 +27,11 @@ module MetaNotification
                     @notifications =  MetaNotification::Notification.select(:id, "mn_notifications.*", "mn_user_notifications.id as mn_user_notification_id","mn_user_notifications.user_id", mobile_or_in_app, "mn_user_notifications.is_read", "mn_notification_types.name", "mn_notification_types.icon", "mn_notification_types.label", "mn_notifications.created_by_id", "mn_notifications.created_at")
                     .joins('JOIN mn_user_notifications on mn_user_notifications.notification_id = mn_notifications.id')
                     .joins('JOIN mn_notification_types on mn_notification_types.id = mn_user_notifications.notification_type_id')
-                    .where("mn_user_notifications.user_id": params[:user_id], "mn_user_notifications.notification_type_id": @notification_type_in_ids)
-                    .where.not("mn_user_notifications.notification_type_id": @notification_type_not_in_ids)
+                    .where("mn_user_notifications.user_id" => params[:user_id], "mn_user_notifications.notification_type_id"=> @notification_type_in_ids)
+                    .where.not("mn_user_notifications.notification_type_id"=> @notification_type_not_in_ids)
                     @unread_count = @notifications.select { |n| n.is_read == 0 }.length
-                    @notifications = @notifications.where("mn_user_notifications.is_read": ((params[:is_fetch_unread].try(:to_bool).present?) ? false : [true, false]) )
-                    @notifications = @notifications.where("mn_notifications.resource_type": params[:resource_type], "mn_notifications.resource_id": params[:resource_id]) if params[:resource_id].present? && params[:resource_type].present?
+                    @notifications = @notifications.where("mn_user_notifications.is_read" => ((params[:is_fetch_unread].try(:to_bool).present?) ? false : [true, false]) )
+                    @notifications = @notifications.where("mn_notifications.resource_type"=> params[:resource_type], "mn_notifications.resource_id"=> params[:resource_id]) if params[:resource_id].present? && params[:resource_type].present?
                     @notifications = @notifications.order("mn_notifications.created_at DESC")
                     @notifications = @notifications.page(params[:current_page]) if params[:current_page].present?
 
