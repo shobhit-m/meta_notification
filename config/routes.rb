@@ -14,6 +14,7 @@ MetaNotification::Engine.routes.draw do
                   end
                   collection do
                     get 'notifications'
+                    get 'unread_count'
                     get 'mark_all_read'
                   end
                 end
