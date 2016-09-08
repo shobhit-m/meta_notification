@@ -8,7 +8,7 @@ module MetaNotification
         before_action :init_authorizer
 
         before_action :set_user_notification, only: [:update, :show]
-        before_action :set_notification_type_ids_for_filter, only: [:notifications, :mark_all_read, :mark_all_read]
+        before_action :set_notification_type_ids_for_filter, only: [:notifications, :mark_all_read, :mark_all_read, :unread_count]
 
         def show
         end
@@ -53,7 +53,7 @@ module MetaNotification
 
         def unread_count
           mobile_or_in_app = (params[:platform] == 'mobile') ? 'mobile'.to_sym : 'in_app'.to_sym
-          unread_count = MetaNotification::Notification.select(:id, 'mn_notifications.*', 'mn_user_notifications.id as mn_user_notification_id', 'mn_user_notifications.user_id', mobile_or_in_app, 'mn_user_notifications.is_read', 'mn_notification_types.name', 'mn_notification_types.icon', 'mn_notification_types.label', 'mn_notifications.created_by_id', 'mn_notifications.created_at')
+          unread_count = MetaNotification::Notification.select(:id, 'mn_notifications.*', 'mn_user_notifications.id as mn_user_notification_id', 'mn_user_notifications.user_id', mobile_or_in_app, 'mn_user_notifications.is_read', 'mn_notification_types.name')
                                                          .joins('JOIN mn_user_notifications on mn_user_notifications.notification_id = mn_notifications.id')
                                                          .joins('JOIN mn_notification_types on mn_notification_types.id = mn_user_notifications.notification_type_id')
                                                          .where('mn_user_notifications.user_id' => params[:user_id], 'mn_user_notifications.notification_type_id' => @notification_type_in_ids, 'mn_user_notifications.is_read' => false)
