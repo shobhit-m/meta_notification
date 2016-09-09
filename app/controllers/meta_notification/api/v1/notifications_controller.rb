@@ -10,6 +10,7 @@ module MetaNotification
         .joins('JOIN mn_notification_templates on mn_notification_templates.id = mn_notifications.notification_template_id')
         .joins('JOIN mn_notification_types on mn_notification_types.id = mn_notification_templates.notification_type_id')
         .where(resource_type: params[:resource_type], resource_id: params[:resource_id])
+        .order('mn_notifications.created_at DESC')
         .includes(:users)
         .page(params[:current_page]) if params[:current_page].present?
         @created_by_users = User.where(id: @notifications.map(&:created_by_id).uniq)
