@@ -6,7 +6,7 @@ node :created_by do |notification|
   { id: user.id, email: user.email, first_name: user.first_name, last_name: user.last_name } if user.present?
 end
 child :users do
-  attributes :id, :email, :first_name, :last_name
+  attributes :id, :first_name, :last_name
 end
 
 node :attachment do |notification|

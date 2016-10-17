@@ -6,10 +6,10 @@ child(@notifications => :notifications)  do
     notification.name
   end
   node :first_name do |notification|
-    @created_by_users.map{|user| user.first_name if notification.created_by_id == user.id}.first
+    @created_by_users.map{|user| user.first_name if notification.created_by_id == user.id}.compact.first
   end
   node :last_name do |notification|
-    @created_by_users.map{|user| user.last_name if notification.created_by_id == user.id}.first
+    @created_by_users.map{|user| user.last_name if notification.created_by_id == user.id}.compact.first
   end
   node :attachment do |notification|
    notification.attachment.url if notification.attachment.present?
