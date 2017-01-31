@@ -29,7 +29,7 @@ module MetaNotification
                                                            .joins('JOIN mn_notification_types on mn_notification_types.id = mn_user_notifications.notification_type_id')
                                                            .where('mn_user_notifications.user_id' => params[:user_id], 'mn_user_notifications.notification_type_id' => @notification_type_in_ids)
                                                            .where.not('mn_user_notifications.notification_type_id' => @notification_type_not_in_ids)
-            @unread_count = @notifications.select { |n| n.is_read == 0 }.length
+            @unread_count = @notifications.select { |n| n.is_read == false }.length
             @notifications = @notifications.where('mn_user_notifications.is_read' => (params[:is_fetch_unread].try(:to_bool).present? ? false : [true, false]))
             @notifications = @notifications.where('mn_notifications.resource_type' => params[:resource_type], 'mn_notifications.resource_id' => params[:resource_id]) if params[:resource_id].present? && params[:resource_type].present?
             @notifications = @notifications.order('mn_notifications.created_at DESC')
