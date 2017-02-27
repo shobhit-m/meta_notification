@@ -1,7 +1,7 @@
 object false
 
 child(@notifications => :notifications)  do
-  attributes :id,:user_id, :is_read, :in_app, :mobile, :label, :icon, :created_at, :mn_user_notification_id
+  attributes :id,:user_id, :is_read, :in_app, :mobile, :label, :icon, :created_at, :created_by_id, :mn_user_notification_id
   node :template_name do |notification|
     notification.name
   end
