@@ -2,7 +2,6 @@ PATH
   remote: .
   specs:
     meta_notification (0.0.10)
-      paperclip (~> 5.1.0)
       rails (~> 4.2)
 
 GEM
@@ -163,6 +162,7 @@ DEPENDENCIES
   faker (= 1.6.3)
   meta_notification!
   mysql2 (= 0.3.18)
+  paperclip (~> 5.1.0)
   rabl (~> 0.11.6)
   rspec-rails (~> 3.4)
 
