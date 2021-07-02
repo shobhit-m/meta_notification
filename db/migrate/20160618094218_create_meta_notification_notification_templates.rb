@@ -1,4 +1,4 @@
-class CreateMetaNotificationNotificationTemplates < ActiveRecord::Migration
+class CreateMetaNotificationNotificationTemplates < ActiveRecord::Migration[4.2]
   def change
     create_table :mn_notification_templates do |t|
       t.references :notification_type, null: false
