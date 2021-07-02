@@ -14,5 +14,5 @@ gemspec
 gem 'byebug', group: [:development, :test]
 
 # gem 'paperclip', '~> 5.2.0'
-gem 'carrierwave','0.10.0'
+# gem 'carrierwave','0.10.0'
 gem 'rabl', '~> 0.14.5'
