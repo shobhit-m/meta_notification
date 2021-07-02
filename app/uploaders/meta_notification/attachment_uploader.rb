@@ -36,8 +36,12 @@ module MetaNotification
     # Override the filename of the uploaded files:
     # Avoid using model.id or version_name here, see uploader/store.rb for details.
     def filename
-      @name ||= "#{timestamp}-#{super}" if original_filename.present? and super.present?
-    end
+      if original_filename.present? and super.present?
+        extension = file.extension
+        basename = File.basename(file.filename,".#{extension}")
+        @name ||= "#{basename}.#{extension}"
+      end
+   end
 
     # def timestamp
     #   var = :"@#{mounted_as}_timestamp"
