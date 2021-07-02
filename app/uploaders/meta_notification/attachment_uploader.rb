@@ -12,7 +12,7 @@ module MetaNotification
     # Add an allowlist of extensions which are allowed to be uploaded.
     # For images you might use something like this:
     def extension_allowlist 
-      %w(jpg jpeg gif png)
+      %w(jpg jpeg gif png pdf)
     end
 
     # Override the directory where uploaded files will be stored.
@@ -21,17 +21,17 @@ module MetaNotification
       "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
     end
 
-    include CarrierWave::MimeTypes
-    process :set_content_type
-    process :store_dimensions
+    # include CarrierWave::MimeTypes
+    # process :set_content_type
+    # process :store_dimensions
 
-    def store_dimensions
-      if file && model
-        img = ::Magick::Image::read(file.file).first
-        model.width = img.columns
-        model.height = img.rows
-      end
-    end
+    # def store_dimensions
+    #   if file && model
+    #     img = ::Magick::Image::read(file.file).first
+    #     model.width = img.columns
+    #     model.height = img.rows
+    #   end
+    # end
 
     # Override the filename of the uploaded files:
     # Avoid using model.id or version_name here, see uploader/store.rb for details.
@@ -39,10 +39,10 @@ module MetaNotification
       @name ||= "#{timestamp}-#{super}" if original_filename.present? and super.present?
     end
 
-    def timestamp
-      var = :"@#{mounted_as}_timestamp"
-      model.instance_variable_get(var) or model.instance_variable_set(var, Time.now.to_i)
-    end
+    # def timestamp
+    #   var = :"@#{mounted_as}_timestamp"
+    #   model.instance_variable_get(var) or model.instance_variable_set(var, Time.now.to_i)
+    # end
     # Provide a default URL as a default if there hasn't been a file uploaded:
     # def default_url(*args)
     #   # For Rails 3.1+ asset pipeline compatibility:
@@ -59,55 +59,6 @@ module MetaNotification
     # end
 
     # Create different versions of your uploaded files:
-    version :large do
-      process :crop
-    end
-
-    def crop
-      if model.crop_x.present?
-        manipulate! do |img|
-          x = model.crop_x.to_i
-          y = model.crop_y.to_i
-          w = model.crop_w.to_i
-          h = model.crop_h.to_i
-          img.crop!(x, y, w, h)
-        end
-      else
-        if(model.width.to_i < 255 || model.height.to_i < 194 )
-          resize_to_fit(model.width.to_i, model.height.to_i)
-        else
-          resize_to_fit(255, 194)
-        end
-      end
-    end
-
-    version :grid, from_version: :large do
-      process resize_padding: [255, 194]
-    end
-
-    version :thumb, from_version: :large do
-      process resize_padding: [60, 46]
-    end
-
-    def resize_with_pad(width, height, background=:transparent, gravity=::Magick::CenterGravity)
-      manipulate! do |img|
-        new_img = ::Magick::Image.new(width, height)
-        if background == :transparent
-          filled = new_img.matte_floodfill(1, 1)
-        else
-          filled = new_img.color_floodfill(1, 1, ::Magick::Pixel.from_color(background))
-        end
-        destroy_image(new_img)
-        filled.composite!(img, gravity, ::Magick::OverCompositeOp)
-        destroy_image(img)
-        filled = yield(filled) if block_given?
-        filled
-      end
-    end
-
-    def resize_padding(width, height)
-      (model.width.to_i < width && model.height.to_i < height ) ? resize_with_pad(width, height,"#F0F0F0") : resize_and_pad(width, height,"#F0F0F0")
-    end
 
   end
 end
