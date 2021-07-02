@@ -1,4 +1,4 @@
-class CreateMetaNotificationUserNotificationSettings < ActiveRecord::Migration
+class CreateMetaNotificationUserNotificationSettings < ActiveRecord::Migration[4.2]
   def change
     create_table :mn_user_notification_settings do |t|
       t.integer :user_id, null: false

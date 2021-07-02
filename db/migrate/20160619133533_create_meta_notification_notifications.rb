@@ -1,4 +1,4 @@
-class CreateMetaNotificationNotifications < ActiveRecord::Migration
+class CreateMetaNotificationNotifications < ActiveRecord::Migration[4.2]
   def change
     create_table :mn_notifications do |t|
       t.integer :notification_template_id, null: false, index: true

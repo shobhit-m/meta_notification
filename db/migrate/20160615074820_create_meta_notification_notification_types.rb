@@ -1,4 +1,4 @@
-class CreateMetaNotificationNotificationTypes < ActiveRecord::Migration
+class CreateMetaNotificationNotificationTypes < ActiveRecord::Migration[4.2]
   def change
     create_table :mn_notification_types do |t|
       t.string :name, null: false, unique: true, limit: 255

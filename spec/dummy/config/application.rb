@@ -26,7 +26,7 @@ module Dummy
     # config.i18n.default_locale = :de
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
+    # config.active_record.raise_in_transactional_callbacks = true
     # for auto loading authority files in lib.
     config.autoload_paths += %W(#{config.root}/lib)
   end
