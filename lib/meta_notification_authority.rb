@@ -1,6 +1,6 @@
 module MetaNotificationAuthority
   def self.included(base)
-    base.before_filter :authorize
+    base.before_action :authorize
   end
 
   def authorize
