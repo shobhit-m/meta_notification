@@ -5,9 +5,6 @@ module MetaNotification
     # include CarrierWave::RMagick
     include CarrierWave::MiniMagick
 
-    include CarrierWave::Compatibility::Paperclip
-
-
     # Choose what kind of storage to use for this uploader:
     # storage :file
     storage :fog
