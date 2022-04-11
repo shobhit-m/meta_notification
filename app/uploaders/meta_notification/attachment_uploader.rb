@@ -5,6 +5,9 @@ module MetaNotification
     # include CarrierWave::RMagick
     include CarrierWave::MiniMagick
 
+    include CarrierWave::Compatibility::Paperclip
+
+
     # Choose what kind of storage to use for this uploader:
     # storage :file
     storage :fog
@@ -13,10 +16,6 @@ module MetaNotification
     # For images you might use something like this:
     def extension_allowlist 
       %w(jpg jpeg gif png pdf)
-    end
-
-    def filename
-      File.basename(path)
     end
 
     # Override the directory where uploaded files will be stored.
