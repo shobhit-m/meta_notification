@@ -15,6 +15,10 @@ module MetaNotification
       %w(jpg jpeg gif png pdf)
     end
 
+    def filename
+      File.basename(path)
+    end
+
     # Override the directory where uploaded files will be stored.
     # This is a sensible default for uploaders that are meant to be mounted:
     def store_dir
